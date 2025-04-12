@@ -8,23 +8,14 @@ from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.ensemble import RandomForestClassifier
 import joblib
 
+from feature_engineering import FeatureEngineer
+
 # Define column types
 cat_cols = ['Gender', 'Subscription Type', 'Contract Length']
 num_cols = ['Age', 'Tenure', 'Usage Frequency', 'Support Calls', 'Payment Delay', 
             'Total Spend', 'Last Interaction']
 
-class FeatureEngineer(BaseEstimator, TransformerMixin):
-    """Custom transformer for feature engineering"""
-    def fit(self, X, y=None):
-        return self
-    
-    def transform(self, X):
-        X = X.copy()
-        # Add engineered features
-        X['Support Call Rate'] = X['Support Calls'] / X['Tenure']
-        X['Avg Monthly Spend'] = X['Total Spend'] / X['Tenure']
-        X['Recent Activity'] = X['Tenure'] - X['Last Interaction']
-        return X
+
 
 def train_and_save_model():
     # Load and prepare data
