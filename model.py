@@ -4,18 +4,16 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
-from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.ensemble import RandomForestClassifier
 import joblib
 
-from feature_engineering import FeatureEngineer
+# Import from the separate module
+from custom_classes import FeatureEngineer
 
 # Define column types
 cat_cols = ['Gender', 'Subscription Type', 'Contract Length']
 num_cols = ['Age', 'Tenure', 'Usage Frequency', 'Support Calls', 'Payment Delay', 
             'Total Spend', 'Last Interaction']
-
-
 
 def train_and_save_model():
     # Load and prepare data
@@ -65,7 +63,17 @@ def predict_single(data):
         prediction: 0 for no churn, 1 for churn
         probability: probability of churn
     """
-    model = joblib.load('static/model/churn_model.pkl')
+    try:
+        model = joblib.load('static/model/churn_model.pkl')
+    except (AttributeError, ImportError) as e:
+        print(f"Model loading error: {e}")
+        # Retrain model on the fly if available, otherwise raise the error
+        try:
+            model = train_and_save_model()
+        except Exception as train_err:
+            print(f"Model retraining failed: {train_err}")
+            raise e
+    
     probability = model.predict_proba(data)[0][1]
     prediction = 1 if probability >= 0.5 else 0
     return prediction, probability

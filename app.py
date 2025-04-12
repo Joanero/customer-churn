@@ -1,7 +1,8 @@
 from flask import Flask, render_template, request
 import pandas as pd
 import numpy as np
-from feature_engineering import FeatureEngineer
+# Import from the separate module
+from custom_classes import FeatureEngineer
 from model import predict_single, get_input_features, num_cols, cat_cols
 
 app = Flask(__name__)
