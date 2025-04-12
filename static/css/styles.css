@@ -1,0 +1,22 @@
+.card {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.risk-meter {
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+}
+
+.progress {
+    height: 25px;
+    margin-top: 10px;
+}
+
+.recommendations {
+    margin-top: 30px;
+}
+
+.list-group-item {
+    border-left: 4px solid #007bff;
+}
